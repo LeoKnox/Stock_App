@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using stocks.Data;
 using Stocks.Data;
 
@@ -15,10 +16,7 @@ namespace Stocks.Data{
             throw new System.NotImplementedException();
         }
 
-        public List<Stock> GetAllStocks()
-        {
-            throw new System.NotImplementedException();
-        }
+        public List<Stock> GetAllStocks() => Data.Stock.ToList();
 
         public Stock GetStockById(int stockId)
         {
@@ -27,7 +25,14 @@ namespace Stocks.Data{
 
         public void UpdateStock(int stockId, Stock stock)
         {
-            throw new System.NotImplementedException();
+            var oldStock = Data.Stock.FirstOrDefault(n => n.Id == stockId);
+            if (oldStock != null)
+            {
+                oldStock.Name = stock.Name;
+                oldStock.Description = stock.Description;
+                oldStock.StockPurchased = stock.StockPurchased;
+                oldStock.StockSold =  stock.StockSold;
+            }
         }
     }
 }

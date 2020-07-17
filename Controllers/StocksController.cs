@@ -13,6 +13,13 @@ namespace stocks.Controllers
             this._service = service;
         }
 
+        [HttpGet("[Action]")]
+        public IActionResult GetStocks()
+        {
+            var allStocks = _service.GetAllStocks();
+            return Ok(allStocks);
+        }
+
         [HttpPost("AddStock")]
         public IActionResult AddStock([FromBody]Stock stock)
         {
@@ -21,6 +28,13 @@ namespace stocks.Controllers
                 _service.AddStock(stock);
             }
             return Ok();
+        }
+
+        [HttpPut("UpdateStock/{id}")]
+        public IActionResult UpdateStock(int id, [FromBody]Stock stock)
+        {
+            _service.UpdateStock(id, stock);
+            return Ok(stock);
         }
     }
 }
