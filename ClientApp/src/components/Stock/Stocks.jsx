@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import axios from 'axios';
 
 export class Stocks extends Component
 {
@@ -7,8 +8,19 @@ export class Stocks extends Component
 
         this.state = {
             stocks: [],
-            loading: false
+            loading: true
         }
+    }
+
+    componentDidMount(){
+        this.populateStocksData();
+    }
+
+    populateStocksData(){
+        axios.get("api/Stocks/GetStocks").then(result => {
+            const response = result.data;
+            this.setState({stocks: response, loading: false});
+        })
     }
 
     renderAllStocksTable(stocks){
@@ -24,23 +36,20 @@ export class Stocks extends Component
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>a</td>
-                        <td>a</td>
-                        <td>a</td>
-                        <td>a</td>
-                        <td>=</td>
-                    </tr>
-                    <tr>
-                        <td>a</td>
-                        <td>a</td>
-                        <td>a</td>
-                        <td>a</td>
-                        <td>=</td>
-                    </tr>
+                    {
+                        stocks.map(stock => (
+                            <tr key={stock.id}>
+                                <td>{stock.name}</td>
+                                <td>{stock.description}</td>
+                                <td>{stock.stockPurchased}</td>
+                                <td>{stock.stockSold}</td>
+                                <td>=</td>
+                            </tr>
+                        ))
+                    }
                 </tbody>
             </table>
-        )
+        );
     }
 
     render(){
@@ -49,7 +58,7 @@ export class Stocks extends Component
                 <em>Loading ...</em>
             </p>
         ) : (
-            this.renderAllStocksTable(this.state.trips)
+            this.renderAllStocksTable(this.state.stocks)
         )
 
         return (
