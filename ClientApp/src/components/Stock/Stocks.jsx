@@ -48,8 +48,8 @@ export class Stocks extends Component
                             <tr key={stock.id}>
                                 <td>{stock.name}</td>
                                 <td>{stock.description}</td>
-                                <td>{stock.stockPurchased}</td>
-                                <td>{stock.stockSold}</td>
+                                <td>{new Date(stock.stockPurchased).toISOString().slice(0,10)}</td>
+                                <td>{stock.stockSold ? new Date(stock.stockSold).toISOString().slice(0,10) : null}</td>
                                 <td>
                                     <div className="form-group">
                                         <button onClick={() => this.onStockUpdate(stock.id)} className="btn btn-success">Update</button>
