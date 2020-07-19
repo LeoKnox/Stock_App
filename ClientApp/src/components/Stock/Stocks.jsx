@@ -7,6 +7,7 @@ export class Stocks extends Component
         super(props);
 
         this.onStockUpdate = this.onStockUpdate.bind(this);
+        this.onStockDelete = this.onStockDelete.bind(this);
 
         this.state = {
             stocks: [],
@@ -21,6 +22,11 @@ export class Stocks extends Component
     onStockUpdate(id){
         const {history} = this.props;
         history.push('/update/'+id);
+    }
+
+    onStockDelete(id){
+        const {history} = this.props;
+        history.push('/delete/'+id);
     }
 
     populateStocksData(){
@@ -53,6 +59,9 @@ export class Stocks extends Component
                                 <td>
                                     <div className="form-group">
                                         <button onClick={() => this.onStockUpdate(stock.id)} className="btn btn-success">Update</button>
+                                    </div>
+                                    <div className="form-group">
+                                        <button onClick={() => this.onStockDelete(stock.id)} className="btn btn-danger">Delete</button>
                                     </div>
                                 </td>
                             </tr>
