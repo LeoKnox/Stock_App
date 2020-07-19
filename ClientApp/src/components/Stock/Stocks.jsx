@@ -6,6 +6,8 @@ export class Stocks extends Component
     constructor(props){
         super(props);
 
+        this.onStockUpdate = this.onStockUpdate.bind(this);
+
         this.state = {
             stocks: [],
             loading: true
@@ -14,6 +16,11 @@ export class Stocks extends Component
 
     componentDidMount(){
         this.populateStocksData();
+    }
+
+    onStockUpdate(id){
+        const {history} = this.props;
+        history.push('/update/'+id);
     }
 
     populateStocksData(){
@@ -43,7 +50,11 @@ export class Stocks extends Component
                                 <td>{stock.description}</td>
                                 <td>{stock.stockPurchased}</td>
                                 <td>{stock.stockSold}</td>
-                                <td>=</td>
+                                <td>
+                                    <div className="form-group">
+                                        <button onClick={() => this.onStockUpdate(stock.id)} className="btn btn-success">Update</button>
+                                    </div>
+                                </td>
                             </tr>
                         ))
                     }
