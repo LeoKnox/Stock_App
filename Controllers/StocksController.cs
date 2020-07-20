@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using stocks.Data;
 using Stocks.Data;
@@ -16,8 +17,12 @@ namespace stocks.Controllers
         [HttpGet("[Action]")]
         public IActionResult GetStocks()
         {
-            var allStocks = _service.GetAllStocks();
-            return Ok(allStocks);
+            try{
+                var allStocks = _service.GetAllStocks();
+                return Ok(allStocks);
+            } catch(Exception ex){
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("SingleStock/{id}")]
