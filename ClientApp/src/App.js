@@ -4,7 +4,7 @@ import { Layout } from './components/Layout';
 import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
-import { Stocks } from './components/Stock/Stocks';
+import Stocks from './components/Stock/Stocks';
 import { Create } from './components/Stock/Create';
 import { Update } from './components/Stock/Update';
 import { Delete } from './components/Stock/Delete';

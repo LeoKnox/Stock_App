@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import {connect} from 'react-redux';
+import {getAllStocks} from '../../actions/stockActions';
 
 export class Stocks extends Component
 {
@@ -16,7 +18,13 @@ export class Stocks extends Component
     }
 
     componentDidMount(){
-        this.populateStocksData();
+        this.props.getAllStocks();
+    }
+
+    componentDidUpdate(prevProps){
+        if(prevProps.stocks.data != this.props.stocks.data){
+            this.setState({stocks: this.props.stocks.data});
+        }
     }
 
     onStockUpdate(id){
@@ -27,13 +35,6 @@ export class Stocks extends Component
     onStockDelete(id){
         const {history} = this.props;
         history.push('/delete/'+id);
-    }
-
-    populateStocksData(){
-        axios.get("api/Stocks/GetStocks").then(result => {
-            const response = result.data;
-            this.setState({stocks: response, loading: false});
-        })
     }
 
     renderAllStocksTable(stocks){
@@ -73,13 +74,21 @@ export class Stocks extends Component
     }
 
     render(){
-        let content = this.state.loading ? (
+        /*let content = this.state.loading ? (
             <p>
                 <em>Loading ...</em>
             </p>
         ) : (
             this.renderAllStocksTable(this.state.stocks)
-        )
+        ) */
+        let content = this.props.stocks.loading ?
+        (
+            <p>
+                <em>Loading ...</em>
+            </p>
+        ) : (
+            this.state.stocks.length && this.renderAllStocksTable(this.state.stocks)
+        );
 
         return (
             <div>
@@ -90,3 +99,9 @@ export class Stocks extends Component
         );
     }
 }
+
+const mapStateToProps = ({stocks}) => ({
+    stocks
+});
+
+export default connect(mapStateToProps, {getAllStocks})(Stocks);
